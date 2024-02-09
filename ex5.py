@@ -29,7 +29,8 @@ def linear(arr, n):
             return i
     return "Not found"
 
-def test(arr):
+i=0
+def test(arr, i):
     binary_total = 0
     linear_total = 0
     for _ in range(1000):
@@ -49,59 +50,45 @@ def test(arr):
 
         binary_total += (binary_end - binary_start)
         linear_total += (linear_end - linear_start)
-
+    barr[i] = binary_total / 1000
+    larr[i] = linear_total / 1000
+    i+=1
     return {
-        "b_avg": binary_total / 1000,
-        "l_avg": linear_total / 1000
+        
     }
 
-arr1 = list(range(1, 101))
-arr2 = list(range(1, 101))
-arr4 = list(range(1, 101))
-arr8 = list(range(1, 101))
-arr16 = list(range(1, 101))
-arr32 = list(range(1, 101))
+barr = list(range(1, 7))
+larr = list(range(1, 7))
+i=0
 
-test(list(range(1, 1001)))
-test(list(range(1, 2001)))
-test(list(range(1, 4001)))
-test(list(range(1, 16001)))
-test(list(range(1, 32001)))
+list_size = [1000, 2000, 4000, 8000, 16000, 32000]
 
-def linear_fit(x, a, b):
-    return a * x + b
+def linearz(x, a, b):
+        return a * x + b
 
-def quadratic_fit(x, a, b, c):
-    return a * x**2 + b * x + c
+def logarithmic(x, a, b):
+    return a * np.log(x) + b
 
-def plot_and_fit(arr_length, results):
-    plt.figure(figsize=(8, 6))
+popt_lin, pcov_lin = curve_fit(linearz, list_size, larr)
+popt_bin, pcov_bin = curve_fit(logarithmic, list_size, barr)
 
-  
-    plt.scatter(range(1000), results, label="Data Points")
-
-    
-    popt, _ = curve_fit(linear_fit, range(1000), results)
-    plt.plot(range(1000), linear_fit(np.array(range(1000)), *popt), 'r-', label="Linear Fit")
-
-    
-
-    plt.title(f"Array Length: {arr_length}")
-    plt.xlabel("Test Case")
-    plt.ylabel("Search Time (seconds)")
-    plt.legend()
+# Plotting function
+def plot_and_fit(list_sizes, times, popt, func, title):
+    xnew = np.linspace(min(list_sizes), max(list_sizes), num=1000, endpoint=True)
+    plt.plot(list_sizes, times, 'o', xnew, func(xnew, *popt), '-')
+    plt.title(title)
+    plt.savefig(title + '.png') 
     plt.show()
 
 
-arr_lengths = [1000, 2000, 4000, 8000, 16000, 32000]
+# Call the test function
+test(list(range(1, 1001)),i)
+test(list(range(1, 2001)),i)
+test(list(range(1, 4001)),i)
+test(list(range(1, 8001)),i)
+test(list(range(1, 16001)),i)
+test(list(range(1, 32001)),i)
 
-for arr_length in arr_lengths:
-    arr = list(range(1, arr_length + 1))
-    results = test(arr)
-    
-    
-    plot_and_fit(arr_length, results["binary_results"])
+plot_and_fit(list_size, barr, popt_bin, logarithmic, "Binary Graph")
 
-    
-    plot_and_fit(arr_length, results["linear_results"])
-
+plot_and_fit(list_size, larr, popt_lin, linearz,"Linear Graph")
