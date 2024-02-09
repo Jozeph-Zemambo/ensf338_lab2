@@ -68,3 +68,40 @@ test(list(range(1, 4001)))
 test(list(range(1, 16001)))
 test(list(range(1, 32001)))
 
+def linear_fit(x, a, b):
+    return a * x + b
+
+def quadratic_fit(x, a, b, c):
+    return a * x**2 + b * x + c
+
+def plot_and_fit(arr_length, results):
+    plt.figure(figsize=(8, 6))
+
+  
+    plt.scatter(range(1000), results, label="Data Points")
+
+    
+    popt, _ = curve_fit(linear_fit, range(1000), results)
+    plt.plot(range(1000), linear_fit(np.array(range(1000)), *popt), 'r-', label="Linear Fit")
+
+    
+
+    plt.title(f"Array Length: {arr_length}")
+    plt.xlabel("Test Case")
+    plt.ylabel("Search Time (seconds)")
+    plt.legend()
+    plt.show()
+
+
+arr_lengths = [1000, 2000, 4000, 8000, 16000, 32000]
+
+for arr_length in arr_lengths:
+    arr = list(range(1, arr_length + 1))
+    results = test(arr)
+    
+    
+    plot_and_fit(arr_length, results["binary_results"])
+
+    
+    plot_and_fit(arr_length, results["linear_results"])
+
