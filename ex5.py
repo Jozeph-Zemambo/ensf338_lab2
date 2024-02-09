@@ -1,5 +1,13 @@
 import random
 import timeit
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.optimize import curve_fit
+
+
+
+
+
 
 def binary(arr, n):
     low, high = 0, len(arr) - 1
@@ -47,16 +55,16 @@ def test(arr):
         "l_avg": linear_total / 1000
     }
 
-arr1 = list(range(1, 1001))
-arr2 = list(range(1, 2001))
-arr4 = list(range(1, 4001))
-arr8 = list(range(1, 8001))
-arr16 = list(range(1, 16001))
-arr32 = list(range(1, 32001))
+arr1 = list(range(1, 101))
+arr2 = list(range(1, 101))
+arr4 = list(range(1, 101))
+arr8 = list(range(1, 101))
+arr16 = list(range(1, 101))
+arr32 = list(range(1, 101))
 
-print(test(arr1))
-print(test(arr2))
-print(test(arr4))
-print(test(arr16))
-print(test(arr32))
+test(list(range(1, 1001)))
+test(list(range(1, 2001)))
+test(list(range(1, 4001)))
+test(list(range(1, 16001)))
+test(list(range(1, 32001)))
 
