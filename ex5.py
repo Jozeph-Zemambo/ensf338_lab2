@@ -69,13 +69,11 @@ def linearz(x, a, b):
 def logarithmic(x, a, b):
     return a * np.log(x) + b
 
-popt_lin, pcov_lin = curve_fit(linearz, list_size, larr)
-popt_bin, pcov_bin = curve_fit(logarithmic, list_size, barr)
 
 # Plotting function
 def plot_and_fit(list_sizes, times, popt, func, title):
-    xnew = np.linspace(min(list_sizes), max(list_sizes), num=1000, endpoint=True)
-    plt.plot(list_sizes, times, 'o', xnew, func(xnew, *popt), '-')
+    tin = np.linspace(min(list_sizes), max(list_sizes), num=1000, endpoint=True)
+    plt.plot(list_sizes, times, 'o', tin, func(tin, *popt), '-')
     plt.title(title)
     plt.savefig(title + '.png') 
     plt.show()
@@ -89,6 +87,10 @@ test(list(range(1, 8001)),i)
 test(list(range(1, 16001)),i)
 test(list(range(1, 32001)),i)
 
-plot_and_fit(list_size, barr, popt_bin, logarithmic, "Binary Graph")
 
+popt_bin, pcov_bin = curve_fit(logarithmic, list_size, barr)
+
+plot_and_fit(list_size, barr, popt_bin, logarithmic, "Binary Graph")
+popt_lin, pcov_lin = curve_fit(linearz, list_size, larr)
 plot_and_fit(list_size, larr, popt_lin, linearz,"Linear Graph")
+
